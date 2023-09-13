@@ -67,17 +67,19 @@ const Game = () => {
         <GameBoard />
       </div>
       <div className="Footer">
-        <div className="d-flex justify-content-center">
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => {
-              setGameStarted(true);
-            }}
-          >
-            {!gameStarted ? "Start Game" : "Resart"}
-          </Button>
-          <p>Current sentence: {phrases[0]}</p>
+        <div className="d-flex justify-content-between">
+          <div>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => {
+                setGameStarted(true);
+              }}
+            >
+              {!gameStarted ? "Start Game" : "Resart"}
+            </Button>
+            <span>Current sentence: {phrases[0]}</span>
+          </div>
 
           <Controller
             onMoveLeft={handleMoveLeft}
