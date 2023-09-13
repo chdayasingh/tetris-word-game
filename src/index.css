@@ -1,0 +1,82 @@
+/* Set the height of the viewport to 100vh for full-screen layout */
+body,
+html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #333; /* Set a dark background color for the entire page */
+  color: #fff; /* Set a light text color */
+}
+
+/* Define a container to center content vertically */
+.game-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh; /* Ensures the container takes up the full viewport height */
+}
+
+/* Style the Header at the top of the viewport */
+.Header {
+  background-color: #000; /* Set a darker background color for the header */
+  color: #fff; /* Set a light text color for the header */
+  padding: 20px;
+}
+
+/* Style the main content area (div.main-content) */
+.main-content {
+  background-color: #222; /* Set a slightly darker background color for the main content */
+  flex-grow: 1; /* Makes the main content area expand to fill available space */
+  color: #fff;
+}
+
+/* Style the Footer at the bottom of the viewport */
+.Footer {
+  background-color: #000; /* Set a darker background color for the footer */
+  color: #fff; /* Set a light text color for the footer */
+  padding: 20px;
+  text-align: center;
+}
+
+/* GameBoard.css */
+
+.main-content {
+  background-color: #222; /* Set a slightly darker background color for the main content */
+  flex-grow: 1; /* Makes the main content area expand to fill available space */
+  color: #fff;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tetris-grid {
+  display: grid;
+  grid-template-rows: repeat(15, 30px);
+  grid-gap: 1px; /* Gap between grid cells */
+  background-color: #111; /* Background color of the grid */
+  border: 2px solid #000; /* Border around the grid */
+}
+
+.tetris-row {
+  display: flex;
+}
+
+.tetris-cell {
+  width: 30px;
+  height: 30px;
+  background-color: #111; /* Default cell background color */
+  border: 1px solid #333; /* Border around each cell */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  font-weight: bold;
+  color: #fff; /* Text color inside the cell */
+}
+
+.tetris-cell.filled {
+  background-color: rgb(9, 185, 9); /* Background color for filled cells */
+  color: #fff; /* Text color for filled cells */
+  border-radius: 7px;
+}
