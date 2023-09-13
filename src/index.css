@@ -28,22 +28,6 @@ html {
   background-color: #222; /* Set a slightly darker background color for the main content */
   flex-grow: 1; /* Makes the main content area expand to fill available space */
   color: #fff;
-}
-
-/* Style the Footer at the bottom of the viewport */
-.Footer {
-  background-color: #000; /* Set a darker background color for the footer */
-  color: #fff; /* Set a light text color for the footer */
-  padding: 20px;
-  text-align: center;
-}
-
-/* GameBoard.css */
-
-.main-content {
-  background-color: #222; /* Set a slightly darker background color for the main content */
-  flex-grow: 1; /* Makes the main content area expand to fill available space */
-  color: #fff;
 
   display: flex;
   justify-content: center;
@@ -53,9 +37,9 @@ html {
 .tetris-grid {
   display: grid;
   grid-template-rows: repeat(15, 30px);
-  grid-gap: 1px; /* Gap between grid cells */
-  background-color: #111; /* Background color of the grid */
-  border: 2px solid #000; /* Border around the grid */
+  grid-gap: 0.8px;
+  background-color: #111;
+  border: 2px solid #000;
 }
 
 .tetris-row {
@@ -65,18 +49,42 @@ html {
 .tetris-cell {
   width: 30px;
   height: 30px;
-  background-color: #111; /* Default cell background color */
-  border: 1px solid #333; /* Border around each cell */
+  background-color: #111;
+  border: 1px solid #333;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 18px;
   font-weight: bold;
-  color: #fff; /* Text color inside the cell */
+  color: #fff;
 }
 
 .tetris-cell.filled {
-  background-color: rgb(9, 185, 9); /* Background color for filled cells */
-  color: #fff; /* Text color for filled cells */
+  background-color: rgb(9, 185, 9);
+  color: #fff;
   border-radius: 7px;
+}
+
+/* Footer layout adjustments */
+.Footer {
+  background-color: #000; /* Set a darker background color for the footer */
+  color: #fff; /* Set a light text color for the footer */
+  padding: 20px;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+  .tetris-cell {
+    width: 20px; /* Reduce cell width */
+    height: 20px; /* Reduce cell height */
+    font-size: 14px; /* Reduce font size */
+  }
+}
+
+@media (max-width: 480px) {
+  .tetris-cell {
+    width: 10px; /* Further reduce cell width */
+    height: 10px; /* Further reduce cell height */
+    font-size: 10px; /* Further reduce font size */
+  }
 }

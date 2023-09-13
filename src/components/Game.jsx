@@ -1,40 +1,86 @@
-import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import Timer from "./Timer";
 import Controller from "./Controller";
 import GameBoard from "./GameBoard";
 
-import { useState } from "react";
+import InfoIcon from "@mui/icons-material/Info";
+
 import phrases from "../assets/phrases.js";
 
+import { useState, useEffect } from "react";
+
 const Game = () => {
-  let phraseIndex = 0;
-  let wordIndex = 0;
-  let word = phrases[phraseIndex].split(" ")[wordIndex];
-  let nextWord = phrases[phraseIndex].split(" ")[wordIndex + 1];
+  const [gameStarted, setGameStarted] = useState(false);
+  const [score, setScore] = useState(0);
+  const [currentPhrase, setCurrentPhrase] = useState("");
+  const [fallingWords, setFallingWords] = useState([]);
+  const [gameOver, setGameOver] = useState(false);
 
-  for (let i = 0; i < phrases.length; i++) {
-    console.log(phrases[i]);
-  }
-
-  const builGrid = () => {
-    const grid = [];
-
-    for (let i = 0; i < 15; i++) {
-      const row = [];
-      for (let j = 0; j < 20; j++) {
-        row.push("");
-      }
-      grid.push(row);
-    }
-
-    return grid;
+  const getNextWord = () => {
+    // Get the next word based on your game logic
+    // For simplicity, you can randomly select words from the current phrase
+    const wordsInCurrentPhrase = currentPhrase.split(" ");
+    const randomIndex = Math.floor(Math.random() * wordsInCurrentPhrase.length);
+    return wordsInCurrentPhrase[randomIndex];
   };
 
-  let [gameStarted, setGameStarted] = useState(false);
-  let [gameOver, setGameOver] = useState(false);
-  let [score, setScore] = useState(0);
-  //   let [grid, setGrid] = useState(builGrid());
+  useEffect(() => {
+    let timerInterval;
+
+    const startGame = () => {
+      // Initialize game variables
+      const initialPhraseIndex = Math.floor(Math.random() * phrases.length);
+      setCurrentPhrase(phrases[initialPhraseIndex]);
+      setFallingWords([getNextWord()]); // Initialize with the first word
+
+      // Start the timer
+      timerInterval = setInterval(() => {
+        setFallingWords((prevWords) => {
+          // Simulate word falling by removing the first word
+          // and adding a new word at the bottom
+          const newWords = prevWords.slice(1);
+          newWords.push(getNextWord());
+          return newWords;
+        });
+      }, 1000); // Adjust the interval as needed
+    };
+
+    const endGame = () => {
+      clearInterval(timerInterval);
+      setGameOver(true);
+      // Handle game over logic here
+    };
+
+    if (gameStarted && !gameOver) {
+      startGame();
+    }
+
+    return () => {
+      clearInterval(timerInterval);
+    };
+  }, [gameStarted, gameOver]);
+
+  const startGame = () => {
+    // Initialize game variables
+    // Set a timer for word falling logic
+    // Set gameStarted to true
+    setGameStarted(true);
+  };
+
+  const restartGame = () => {
+    // Reset game variables and state
+    // Call startGame to begin a new game
+    setGameStarted(false);
+    setScore(0);
+    setCurrentPhrase("");
+    setFallingWords([]);
+    setGameOver(false);
+  };
+
+  const handleWordLanded = () => {
+    // Check if the current phrase is complete
+    // If yes, increase the score and set a new phrase
+  };
 
   const handleMoveLeft = () => {
     console.log("Left");
@@ -53,18 +99,17 @@ const Game = () => {
           <div className="logo">Game Logo</div>
           {gameStarted && (
             <div className="nextWord">
-              Current word: {word}, Next Upcoming Word:{" "}
-              <span id="nextWordValue">{nextWord}</span>
+              Current word: {fallingWords[0]}, Next Upcoming Word:{" "}
+              <span id="nextWordValue">{getNextWord()}</span>
             </div>
           )}
           <div className="score">
-            Score: <span id="scoreValue">0</span>
+            Score: <span id="scoreValue">{score}</span>
           </div>
         </div>
       </div>
       <div className="main-content">
-        <GameBoard array2d={builGrid()} />
-        <GameBoard />
+        <GameBoard fallingWords={fallingWords} />
       </div>
       <div className="Footer">
         <div className="d-flex justify-content-between">
@@ -72,28 +117,32 @@ const Game = () => {
             <Button
               variant="contained"
               color="primary"
-              onClick={() => {
-                setGameStarted(true);
-              }}
+              onClick={gameStarted ? restartGame : startGame}
             >
-              {!gameStarted ? "Start Game" : "Resart"}
+              {gameStarted ? "Restart" : "Start Game"}
             </Button>
-            <span>Current sentence: {phrases[0]}</span>
+
+            <span>
+              <InfoIcon></InfoIcon> {phrases[0]}
+            </span>
           </div>
+
+          {gameStarted && (
+            <Timer
+              initialTime={5 * 60}
+              onTimeout={() => {
+                console.log("Game End");
+                setGameStarted(false);
+                // Handle game over logic here
+              }}
+            ></Timer>
+          )}
 
           <Controller
             onMoveLeft={handleMoveLeft}
             onMoveDown={handleMoveDown}
             onMoveRight={handleMoveRight}
           ></Controller>
-          {gameStarted && (
-            <Timer
-              onTimeout={() => {
-                console.log("Game End");
-                setGameStarted(false);
-              }}
-            ></Timer>
-          )}
         </div>
       </div>
     </div>

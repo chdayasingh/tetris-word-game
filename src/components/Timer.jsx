@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
-const Timer = ({ onTimeout }) => {
-  const initialTime = 5 * 60; // 5 minutes in seconds
+const Timer = ({ onTimeout, initialTime }) => {
   const [time, setTime] = useState(initialTime);
 
   useEffect(() => {

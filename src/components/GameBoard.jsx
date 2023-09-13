@@ -1,16 +1,28 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 
-const GameBoard = ({ array2d }) => {
-  array2d = array2d || [];
+const GameBoard = ({ fallingWords, gameOver, handleWordLanded }) => {
+  const buildGrid = () => {
+    const grid = [];
+    const ROWS = 15;
+    const COLS = 35;
 
-  let [grid, setGrid] = useState(array2d);
+    for (let i = 0; i < ROWS; i++) {
+      const row = [];
+      for (let j = 0; j < COLS; j++) {
+        row.push("");
+      }
+      grid.push(row);
+    }
 
-  useEffect(() => {});
+    return grid;
+  };
+
+  const [grid, setGrid] = useState(buildGrid);
 
   const handleClick = (row, col) => {
     console.log("div clicked");
     const newGrid = [...grid];
-    newGrid[row][col] = "O";
+    newGrid[row][col] = newGrid[row][col] === "" ? "O" : "";
     setGrid(newGrid);
   };
 
@@ -25,6 +37,19 @@ const GameBoard = ({ array2d }) => {
               className={cell ? "tetris-cell filled" : "tetris-cell"}
             >
               {cell}
+            </div>
+          ))}
+        </div>
+      ))}
+      {/* Render falling words */}
+      {fallingWords.map((word, index) => (
+        <div key={index} className="tetris-row">
+          {word.split("").map((letter, letterIndex) => (
+            <div
+              key={letterIndex}
+              className={`tetris-cell ${gameOver ? "filled" : ""}`}
+            >
+              {letter}
             </div>
           ))}
         </div>
